@@ -1,4 +1,150 @@
-```python
+# PHÂN TÍCH VÀ THIẾT KẾ 
+
+# 1. Phân tích biến Global và Local
+#
+# Biến Global:
+# - inventory_stock:
+#   + Được khai báo ngoài hàm.
+#   + Dùng để lưu số lượng sản phẩm tồn kho hiện tại.
+#   + Được nhiều chức năng sử dụng và cập nhật.
+#
+# - total_revenue:
+#   + Được khai báo ngoài hàm.
+#   + Dùng để lưu tổng doanh thu toàn hệ thống.
+#   + Được cập nhật sau mỗi lần bán hàng thành công.
+#
+# - is_run_true:
+#   + Điều khiển vòng lặp chạy menu chương trình.
+#
+#
+# Biến Local:
+# - choice:
+#   + Chỉ tồn tại trong hàm check_input_selection().
+#   + Lưu lựa chọn menu của người dùng.
+#
+# - quantity:
+#   + Chỉ tồn tại trong hàm check_quantity().
+#   + Lưu số lượng sản phẩm nhập vào.
+#
+# - price:
+#   + Chỉ tồn tại trong hàm check_price().
+#   + Lưu giá bán sản phẩm.
+#
+# - temporary_total_amount:
+#   + Chỉ tồn tại trong hàm processed_into_money().
+#   + Lưu tổng tiền tạm tính trước giảm giá và VAT.
+#
+# - discount:
+#   + Biến cục bộ dùng để xác định mức giảm giá.
+#
+# - vat:
+#   + Biến cục bộ dùng để tính thuế VAT.
+#
+# - final_total:
+#   + Chỉ dùng trong chức năng bán hàng.
+#   + Lưu tổng tiền cuối cùng khách phải thanh toán.
+#
+#
+# 2. Thiết kế luồng xử lý chương trình
+#
+# Chức năng 1: Nhập thêm hàng
+# - Người dùng nhập số lượng hàng cần thêm.
+# - Kiểm tra dữ liệu hợp lệ:
+#   + Phải là số nguyên.
+#   + Phải lớn hơn 0.
+# - Gọi hàm import_more_goods().
+# - Cập nhật inventory_stock.
+# - In thông báo nhập hàng thành công.
+#
+#
+# Chức năng 2: Bán hàng
+# - Người dùng nhập:
+#   + Số lượng sản phẩm muốn mua.
+#   + Giá bán sản phẩm.
+#
+# - Kiểm tra:
+#   + Dữ liệu phải là số hợp lệ.
+#   + Giá và số lượng phải lớn hơn 0.
+#   + Không được vượt quá tồn kho.
+#
+# - Nếu hợp lệ:
+#   + Gọi hàm processed_into_money().
+#   + Tính:
+#       temporary_total_amount = quantity * price
+#       discount = 10% nếu hóa đơn >= 1000
+#       vat = 8%
+#       final_total = sau giảm giá + VAT
+#
+# - Sau đó:
+#   + Trừ tồn kho.
+#   + Cộng doanh thu vào total_revenue.
+#   + In hóa đơn chi tiết.
+#
+#
+# Chức năng 3: Báo cáo tổng quan
+# - Gọi hàm print_report().
+# - Hiển thị:
+#   + Tồn kho hiện tại.
+#   + Tổng doanh thu.
+#
+#
+# Chức năng 4: Thoát chương trình
+# - Đổi is_run_true = False.
+# - Kết thúc vòng lặp while.
+#
+#
+# 3. Xử lý Edge Cases
+#
+# Edge Case 1:
+# - Người dùng nhập số âm hoặc bằng 0.
+# - Hệ thống báo:
+#   "Dữ liệu nhập vào phải lớn hơn 0."
+#
+#
+# Edge Case 2:
+# - Người dùng nhập chữ thay vì số.
+# - Hệ thống dùng try-except để bắt lỗi ValueError.
+#
+#
+# Edge Case 3:
+# - Người dùng mua vượt quá tồn kho.
+# - Hệ thống báo:
+#   "Không đủ hàng trong kho."
+#
+#
+# Edge Case 4:
+# - Người dùng chọn menu ngoài phạm vi 1-4.
+# - Hệ thống yêu cầu nhập lại.
+#
+#
+# 4. Thiết kế hàm
+#
+# check_input_selection()
+# - Kiểm tra lựa chọn menu.
+# - Trả về lựa chọn hợp lệ.
+#
+# check_quantity(content)
+# - Kiểm tra số lượng nhập vào.
+# - Trả về số lượng hợp lệ.
+#
+# check_price()
+# - Kiểm tra giá bán.
+# - Trả về giá hợp lệ.
+#
+# import_more_goods(stock, quantity)
+# - Cộng thêm hàng vào kho.
+# - Trả về tồn kho mới.
+#
+# processed_into_money(quantity, price)
+# - Tính:
+#   + Tạm tính
+#   + Giảm giá
+#   + VAT
+# - Trả về các giá trị hóa đơn.
+#
+# print_report()
+# - In báo cáo doanh thu và tồn kho.
+
 # Hệ Thống Quản Lý Kho Hàng & Doanh Thu (TechStore Inventory)
 
 inventory_stock = 100
@@ -201,4 +347,4 @@ while is_run_true:
 
             print("Thoát chương trình...")
             is_run_true = False
-```
+
